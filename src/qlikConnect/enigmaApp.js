@@ -14,18 +14,20 @@ const session = enigma.create({
   url: `ws${config.isSecure ? 's' : ''}://${config.host}:${config.port}/${config.prefix ? `${config.prefix}/` : ''}app/engineData`,
 }) 
 
-export function openSession() {
-  return new Promise((resolve, reject) => {
-    session.open().then(global => {
-      global.openDoc(config.appId).then(doc => {
-        resolve(doc)
-          })
-      .catch(() => {
-        reject('Qlik-Enigma Error: unable to openDoc')
-      })
-    })
-    .catch(() => {
-      reject('Qlik-Enigma Error: unable to open session')
-    })
-  })
+export async function openSession() {
+  try {
+    const qix = await session.open()
+   try {
+    return qix.openDoc(config.appId)
+   } catch(error) {
+     console.log('unable to open Doc', error)
+   } 
+  } catch (error){
+    console.log('unable to open session', error)
+  }
 }
+
+export function closeSession() {
+  session.close()
+}
+

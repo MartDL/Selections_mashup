@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import { openSession } from '../utils/enigmaApp';
+import { openSession } from '../qlikConnect/enigmaApp';
 
 export const QlikContext = createContext(null)
 
